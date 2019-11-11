@@ -81,10 +81,12 @@ var TnsOAuthLoginSubController = (function () {
         connection.startGetTokenFromCode(this.authState.authCode);
     };
     TnsOAuthLoginSubController.prototype.completeLoginWithTokenResponseError = function (tokenResult, responseError) {
-        var loginCompletion = this.authState
-            .loginCompletion;
-        this.authState = null;
-        loginCompletion(tokenResult, responseError);
+        if(this.authState && this.authState.loginCompletion) {
+            var loginCompletion = this.authState
+                .loginCompletion;
+            this.authState = null;
+            loginCompletion(tokenResult, responseError);
+        }
     };
     return TnsOAuthLoginSubController;
 }());
